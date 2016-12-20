@@ -206,7 +206,7 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
 
     @OnClick(R.id.tv_title)
     public void onClickName() {
-        if (tag_name.equals(Constants.LIST_ALARM))
+        if (tag_name.equals(Constants.LIST_ALARM) || tag_name.equals(Constants.LIST_KORAN))
             showDialog(new SettingTitleDialog());
         else if(tag_name.equals(Constants.LIST_ALARM_SELECT_ITEM)){
             showDialogChangeName();
