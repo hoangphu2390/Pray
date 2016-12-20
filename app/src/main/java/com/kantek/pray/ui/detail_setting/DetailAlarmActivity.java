@@ -2,6 +2,7 @@ package com.kantek.pray.ui.detail_setting;
 
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -15,6 +16,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -25,6 +29,7 @@ import com.kantek.pray.data.database.T_Koran;
 import com.kantek.pray.define.Constants;
 import com.kantek.pray.listener.SettingTitleListener;
 import com.kantek.pray.services.AlarmReceiver;
+import com.kantek.pray.ui.detail_koran.DetailKoranActivity;
 import com.kantek.pray.ui.detail_setting.dialog.SettingTitleDialog;
 import com.kantek.pray.utils.Navigator;
 import com.kantek.pray.utils.Utils;
@@ -45,9 +50,9 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
 
     private T_Koran koran;
     private TextView tv_hour, tv_minute, tv_title, tv_sound;
-    private SwitchCompat switchEnable, switchRepeat;
+    private SwitchCompat switchRepeat;
     final int RINGTONEPICKER = 1;
-    private int isEnable = 0, isRepeat = 0;
+    private int isRepeat = 0;
     private boolean isCreateAlarm = false;
     private String tag_name;
 
@@ -60,7 +65,6 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
         tv_minute = (TextView) findViewById(R.id.tv_minute);
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_sound = (TextView) findViewById(R.id.tv_sound);
-        switchEnable = (SwitchCompat) findViewById(R.id.switchEnable);
         switchRepeat = (SwitchCompat) findViewById(R.id.switchRepeat);
 
         getData();
@@ -74,16 +78,6 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
                     isRepeat = 1;
             }
         });
-
-        switchEnable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isEnable == 1)
-                    isEnable = 0;
-                else
-                    isEnable = 1;
-            }
-        });
     }
 
     private void getData() {
@@ -93,7 +87,6 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
         if (getIntent().getExtras().containsKey(Constants.KORAN_ENTITY)) {
             koran = (T_Koran) getIntent().getExtras().getSerializable(Constants.KORAN_ENTITY);
             if (koran == null) {
-                switchEnable.setChecked(false);
                 switchRepeat.setChecked(false);
                 tv_title.setText("Not yet");
                 tv_sound.setText("Not yet");
@@ -116,13 +109,6 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
             isRepeat = 0;
         }
 
-        if (koran.is_enable == 1) {
-            switchEnable.setChecked(true);
-            isEnable = 1;
-        } else {
-            switchEnable.setChecked(false);
-            isEnable = 0;
-        }
         tv_title.setText(koran.title);
         tv_sound.setText(koran.sound);
     }
@@ -151,6 +137,7 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
         String type;
         if (isCreateAlarm) {
             koran = new T_Koran();
+            koran.description = "";
         }
         int hour = Integer.parseInt(tv_hour.getText().toString());
         if (hour <= 12) {
@@ -166,7 +153,6 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
             koran.time = String.valueOf(hour) + ":" + tv_minute.getText().toString() + type;
         koran.is_repeat = isRepeat;
         koran.sound = tv_sound.getText().toString();
-        koran.is_enable = isEnable;
         if (!isCreateAlarm)
             DataMapper.updateAll(koran);
         else {
@@ -174,7 +160,7 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
             Utils.setIntegerPreference(DetailAlarmActivity.this, Constants.INDEX_INCREMENT, Integer.parseInt(koran.koran_id));
             DataMapper.saveInfo_Koran(koran);
         }
-        Navigator.openShowDetailAlarmActivity(DetailAlarmActivity.this, koran);
+        //Navigator.openShowDetailAlarmActivity(DetailAlarmActivity.this, koran);
 
         // save alarm
         saveAlarmManager();
@@ -220,7 +206,11 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
 
     @OnClick(R.id.tv_title)
     public void onClickName() {
-        showDialog(new SettingTitleDialog());
+        if (tag_name.equals(Constants.LIST_ALARM))
+            showDialog(new SettingTitleDialog());
+        else if(tag_name.equals(Constants.LIST_ALARM_SELECT_ITEM)){
+            showDialogChangeName();
+        }
     }
 
     @OnClick(R.id.tv_sound)
@@ -271,6 +261,44 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
             Ringtone ringTone = RingtoneManager.getRingtone(getApplicationContext(), uri);
             tv_sound.setText(ringTone.getTitle(this));
         }
+    }
+
+    private void showDialogChangeName(){
+        final Dialog dialog = new Dialog(DetailAlarmActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_setting_name);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        //This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+
+        final EditText edt_change_title = (EditText) dialog.findViewById(R.id.edt_change_title);
+        final TextView tv_accept = (TextView) dialog.findViewById(R.id.tv_accept);
+        final TextView tv_cancel = (TextView) dialog.findViewById(R.id.tv_cancel);
+        tv_accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String description = edt_change_title.getText().toString();
+                if(description.isEmpty()) {
+                    Toast.makeText(dialog.getContext(), R.string.toast_msg_enter_description, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                DataMapper.updateDescription(koran.koran_id, description);
+                tv_title.setText(description);
+                dialog.dismiss();
+            }
+        });
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     ///////////////////////////////interface ////////////////////////////////////////////////////

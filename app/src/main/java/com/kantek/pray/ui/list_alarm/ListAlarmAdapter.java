@@ -15,6 +15,7 @@ import com.kantek.pray.base.BaseAdapter;
 import com.kantek.pray.base.BaseHolder;
 import com.kantek.pray.data.database.DataMapper;
 import com.kantek.pray.data.database.T_Koran;
+import com.kantek.pray.define.Constants;
 import com.kantek.pray.utils.Utils;
 
 import butterknife.Bind;
@@ -66,7 +67,10 @@ public class ListAlarmAdapter extends BaseAdapter<T_Koran, BaseHolder> {
             if (Utils.formatTimeTo24hours(koran.time) != null) {
                 tv_setting_time.setText(Utils.formatTimeTo24hours(koran.time));
             }
-            tv_setting_title.setText(koran.title);
+            if (koran.description.equals(""))
+                tv_setting_title.setText(koran.title);
+            else
+                tv_setting_title.setText(koran.description);
             setStateItem(koran.is_enable);
 
             switchCompat.setOnClickListener(new View.OnClickListener() {

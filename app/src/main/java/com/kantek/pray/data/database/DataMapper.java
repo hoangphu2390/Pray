@@ -38,6 +38,10 @@ public class DataMapper {
         T_Koran.updateTitle(titleOld, titleNew);
     }
 
+    public static void updateDescription(String koran_id, String description) {
+        T_Koran.updateDescription(koran_id, description);
+    }
+
     public static T_Koran getInfo_Koran(String koran_id) {
         T_Koran t_koran = T_Koran.getById(koran_id);
         return t_koran;

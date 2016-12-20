@@ -156,46 +156,4 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/thickness_mini"
         android:background="@color/gray" />
-
-    <LinearLayout
-        android:id="@+id/view_snooze"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_item_add_setting_time"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/margin_distance_10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_distance_10dp"
-            android:layout_toRightOf="@+id/icon_back_setting"
-            android:text="Enable"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_20" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switchEnable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:layout_marginRight="@dimen/margin_distance_10dp"
-            android:background="@android:color/transparent"
-            android:checked="false"
-            android:padding="@dimen/padding_distance_10dp"
-            android:shadowColor="@color/green"
-            android:theme="@color/green" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/thickness_mini"
-        android:background="@color/gray" />
 </LinearLayout>

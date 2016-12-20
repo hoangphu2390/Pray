@@ -77,6 +77,10 @@ public class T_Koran extends Model implements Serializable, Comparable<T_Koran> 
         new Update(T_Koran.class).set("title=?", titleNew).where("title=?", titleOld).execute();
     }
 
+    public static void updateDescription(String koran_id, String description) {
+        new Update(T_Koran.class).set("description=?", description).where("koran_id =?", koran_id).execute();
+    }
+
     public static void updateAll(T_Koran t_koran) {
         String updateSet = " time = ? ," + " is_repeat = ? ," + " title = ? ," + " sound = ? ," + " is_enable = ? ";
 
