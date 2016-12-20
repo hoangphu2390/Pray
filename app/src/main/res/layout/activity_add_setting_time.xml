@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/layout_background_blur" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:id="@+id/frame_hour"
+                android:layout_width="90dp"
+                android:layout_height="120dp"
+                android:background="@drawable/bg_frame_time"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_50"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/frame_minute"
+                android:layout_width="90dp"
+                android:layout_height="120dp"
+                android:background="@drawable/bg_frame_time"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_minute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_50"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:paddingLeft="@dimen/margin_distance_20dp"
+            android:paddingRight="@dimen/margin_distance_20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/layout_items_add_setting" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <include layout="@layout/layout_bottom_back_save"/>
+    </LinearLayout>
+
+    <!--Show dialog -->
+    <FrameLayout
+        android:id="@+id/content_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</FrameLayout>

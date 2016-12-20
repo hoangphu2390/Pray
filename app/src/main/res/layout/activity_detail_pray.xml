@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/layout_background_blur" />
+
+    <include layout="@layout/layout_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_distance_70dp"
+        android:paddingLeft="@dimen/margin_distance_15dp"
+        android:paddingRight="@dimen/margin_distance_15dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur feugiat erat felis, a rhoncus elit accumsan non. Suspendisse auctor tellus at suscipit viverra. In rhoncus tellus et sem porta fermentum. Quisque ut quam a purus scelerisque sodales."
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_distance_20dp"
+            android:text="'Lorem ipsum dolor sit amet'"
+            android:textSize="@dimen/text_size_26"/>
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_distance_30dp"
+            android:text="1"
+            android:textSize="@dimen/text_size_80"/>
+
+        <View
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/margin_distance_40dp">
+
+            <ImageView
+                android:id="@+id/icon_back"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_back_setting" />
+
+            <TextView
+                android:id="@+id/tv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_distance_10dp"
+                android:text="Back"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/icon_back"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_24" />
+
+            <LinearLayout
+                android:id="@+id/btn_tap"
+                android:layout_width="@dimen/diameter_circle_add"
+                android:layout_height="@dimen/diameter_circle_add"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/margin_distance_10dp"
+                android:layout_marginRight="@dimen/margin_distance_10dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/icon_cirle_add">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/icon_back_setting"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_24" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btn_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_distance_10dp"
+                android:text="Reset"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/icon_reset"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_24" />
+
+            <ImageView
+                android:id="@+id/icon_reset"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="@dimen/margin_distance_5dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_reset" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

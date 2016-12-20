@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/padding_distance_20dp">
+
+    <TextView
+        android:id="@+id/tv_item_title_pray"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="1. Lorem ipsum dolor sit amet"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_20" />
+
+    <LinearLayout
+        android:id="@+id/view_alarm"
+        android:layout_width="@dimen/width_item_alarm"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_distance_20dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_bell"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginBottom="@dimen/margin_distance_5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_bell" />
+
+        <TextView
+            android:id="@+id/tv_show_setting_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="07:00 AM"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_12" />
+    </LinearLayout>
+</LinearLayout>

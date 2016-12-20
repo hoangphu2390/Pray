@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Blessing</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- title activity -->
+    <string name="title_list_pray">LIST</string>
+    <string name="country_prompt">Choose a country</string>
+    <string name="color_active_snooze">#FFFFFF</string>
+    <string name="color_deactive_snooze">#234522</string>
+    <string name="toast_show_msg_enable">Please enable alarm</string>
+    <string name="toast_msg_state_snooze">Snooze</string>
+    <string name="toast_msg_state_not_snooze">Not Snooze</string>
+    <string name="text_state_blessed">I\'m blessed</string>
+    <string name="text_state_not_bless">I\'m not bless</string>
+    <string name="toast_msg_enter_title">Please enter name</string>
+
+    <string-array name="dawkins_sounds">
+        <item>Pick a Random Dawkins quote</item>
+        <item>"Religion is the root of quite a lot of evil …"</item>
+        <item>"I yield to no one in my capacity to be moved …"</item>
+        <item>On Kurt Wise</item>
+        <item>"The universe is not sentient …"</item>
+        <item>"If someone from the Middle Ages were brought by time machine to now …"</item>
+        <item>"The idea of blind faith, believing something without evidence …"</item>
+        <item>The factuality of evolution</item>
+        <item>"My attitude to science is that …"</item>
+        <item>Religion does not have a monopoly on emotion, on poetry, on sympathy, on empathy</item>
+    </string-array>
+
+</resources>

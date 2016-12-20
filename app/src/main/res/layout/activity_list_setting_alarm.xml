@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/layout_background_blur" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_setting"
+            android:layout_marginTop="@dimen/margin_distance_20dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_distance_20dp"
+            android:paddingRight="@dimen/margin_distance_20dp">
+
+            <ImageView
+                android:id="@+id/icon_back_setting"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_back_setting" />
+
+            <TextView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_distance_10dp"
+                android:text="Back"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/icon_back_setting"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_24" />
+
+            <LinearLayout
+                android:id="@+id/btn_add_alarm"
+                android:layout_width="@dimen/diameter_circle_add"
+                android:layout_height="@dimen/diameter_circle_add"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/margin_distance_10dp"
+                android:layout_marginRight="@dimen/margin_distance_10dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/icon_cirle_add">
+
+                <ImageView
+                    android:layout_width="@dimen/diameter_add"
+                    android:layout_height="@dimen/diameter_add"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_add" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_distance_10dp"
+                android:text="Edit"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/icon_setting"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_24" />
+
+            <ImageView
+                android:id="@+id/icon_setting"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_setting" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>
