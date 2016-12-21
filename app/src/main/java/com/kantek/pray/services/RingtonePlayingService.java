@@ -33,6 +33,7 @@ public class RingtonePlayingService extends Service {
     private int startId;
     private List<String> listRingtoneName;
     private List<String> listRingtonePath;
+    private PendingIntent pIntent;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -57,7 +58,8 @@ public class RingtonePlayingService extends Service {
         intent1.putExtra(Constants.KORAN_ENTITY, koran);
         intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pIntent = PendingIntent.getActivity(this, Integer.parseInt(koran.koran_id), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (koran.koran_id != null)
+             pIntent = PendingIntent.getActivity(this, Integer.parseInt(koran.koran_id), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
         String content_notification = "";
         if (!koran.description.equals(""))
@@ -90,7 +92,7 @@ public class RingtonePlayingService extends Service {
 
         if (!this.isRunning && startId == 1) {
             Log.e("if there was not sound ", " and you want start");
-            if(uri != null) {
+            if (uri != null) {
                 try {
                     mMediaPlayer = new MediaPlayer();
                     mMediaPlayer.setDataSource(this.getApplicationContext(), uri);
@@ -128,7 +130,7 @@ public class RingtonePlayingService extends Service {
 
                 this.isRunning = false;
                 this.startId = 0;
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

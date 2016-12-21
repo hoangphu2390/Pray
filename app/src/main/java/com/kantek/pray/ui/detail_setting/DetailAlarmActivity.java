@@ -97,6 +97,12 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
                 tv_title.setText(Constants.NOT_YET);
                 tv_sound.setText(Constants.NOT_YET);
                 isCreateAlarm = true;
+
+                Calendar calendar = Calendar.getInstance();
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+                tv_hour.setText(String.valueOf(hour));
+                tv_minute.setText(String.valueOf(minute));
                 return;
             }
             if (koran.time == null) return;
