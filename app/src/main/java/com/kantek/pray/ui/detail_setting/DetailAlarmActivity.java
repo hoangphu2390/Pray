@@ -225,12 +225,10 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
         myIntent.putExtra(Constants.KORAN_ENTITY, koran);
         myIntent.putExtra(Constants.URI, intent_uri);
 
-        pendingIntent = PendingIntent.getBroadcast(DetailAlarmActivity.this, Integer.parseInt(koran.koran_id),
-                myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if (isRepeat == 0)
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        else
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Constants.TIME_INTERVAL, pendingIntent);
+        pendingIntent = PendingIntent.getBroadcast(DetailAlarmActivity.this, 0,
+                myIntent, 0);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 3, pendingIntent);
     }
 
     @OnClick(R.id.frame_hour)

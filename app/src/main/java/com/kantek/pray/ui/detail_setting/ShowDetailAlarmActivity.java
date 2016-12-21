@@ -35,8 +35,6 @@ public class ShowDetailAlarmActivity extends BaseActivity {
     TextView tv_time;
     @Bind(R.id.tv_title)
     TextView tv_title;
-    @Bind(R.id.tv_snooze)
-    TextView tv_snooze;
     @Bind(R.id.tv_blessed)
     TextView tv_blessed;
 
@@ -72,29 +70,7 @@ public class ShowDetailAlarmActivity extends BaseActivity {
         Navigator.openDetailKoranActivity(this, koran);
     }
 
-    @OnClick(R.id.tv_snooze)
-    public void onClickSnooze() {
 
-        int minute_interval = 1; //2 minute snooze
-        long intervalMilis = minute_interval * 60 * 1000;
-
-        WakeLocker.release();
-
-        Intent myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        myIntent.putExtra("extra", "no");
-        PendingIntent pending_intent = PendingIntent.getBroadcast(ShowDetailAlarmActivity.this, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        sendBroadcast(myIntent);
-        alarmManager.cancel(pending_intent);
-
-        myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        myIntent.putExtra("extra", "yes");
-        myIntent.putExtra("ringtone", koran.sound);
-        pending_intent = PendingIntent.getBroadcast(ShowDetailAlarmActivity.this, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        sendBroadcast(myIntent);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + intervalMilis, pending_intent);
-    }
 
     @OnClick(R.id.tv_mute)
     public void onClickMute() {
@@ -110,10 +86,9 @@ public class ShowDetailAlarmActivity extends BaseActivity {
         myIntent.putExtra("extra", "no");
         myIntent.putExtra(Constants.KORAN_ENTITY, koran);
         myIntent.putExtra(Constants.URI, uri);
-        PendingIntent pending_intent = PendingIntent.getBroadcast(ShowDetailAlarmActivity.this, Integer.parseInt(koran.koran_id),
-                myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        sendBroadcast(myIntent);
-        alarmManager.cancel(pending_intent);
+        PendingIntent pending_intent = PendingIntent.getBroadcast(ShowDetailAlarmActivity.this, 0,
+                myIntent, 0);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 * 3, pending_intent);
     }
 
     @OnClick(R.id.btn_close)

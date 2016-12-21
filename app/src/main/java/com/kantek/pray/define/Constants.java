@@ -46,6 +46,6 @@ public class Constants {
 
     // time interval from minute to milisecond
    // public static final int TIME_INTERVAL = 86400000 ;
-    public static final int TIME_INTERVAL = 120000 ;
+    public static final int TIME_INTERVAL = 180000 ;
 
 }

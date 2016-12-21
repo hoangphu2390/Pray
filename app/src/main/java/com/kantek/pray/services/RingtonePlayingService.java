@@ -58,21 +58,21 @@ public class RingtonePlayingService extends Service {
         intent1.putExtra(Constants.KORAN_ENTITY, koran);
         intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        if (koran.koran_id != null)
-             pIntent = PendingIntent.getActivity(this, Integer.parseInt(koran.koran_id), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //pIntent = PendingIntent.getActivity(this, Integer.parseInt(koran.koran_id), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        pIntent = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
         String content_notification = "";
-        if (!koran.description.equals(""))
-            content_notification = koran.description;
-        else
-            content_notification = koran.title;
+//        if (!koran.description.equals(""))
+//            content_notification = koran.description;
+//        else
+//            content_notification = koran.title;
 
         Notification mNotify = new Notification.Builder(this)
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText(content_notification)
                 .setSmallIcon(R.drawable.icon_app)
                 .setContentIntent(pIntent)
-                .setAutoCancel(true)
                 .build();
 
         Log.e("what is going on here  ", state);
