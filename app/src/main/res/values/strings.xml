@@ -15,6 +15,7 @@
     <string name="toast_msg_enter_title">Please enter name</string>
     <string name="toast_msg_enter_description">Please enter description</string>
     <string name="toast_msg_saved_set_alarm">Saved set alarm</string>
+    <string name="toast_msg_enter_sound">Please enter sound</string>
 
     <string-array name="dawkins_sounds">
         <item>Pick a Random Dawkins quote</item>

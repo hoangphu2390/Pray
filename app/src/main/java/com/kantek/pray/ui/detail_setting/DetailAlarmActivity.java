@@ -98,17 +98,14 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
                 tv_sound.setText(Constants.NOT_YET);
                 isCreateAlarm = true;
 
-                Calendar calendar = Calendar.getInstance();
-                int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                int minute = calendar.get(Calendar.MINUTE);
-                tv_hour.setText(String.valueOf(hour));
-                tv_minute.setText(String.valueOf(minute));
+                getCurrentTime();
                 return;
             }
             if (koran.time == null) return;
             if (koran.time.equals(Constants.NOT_YET)) {
                 tv_title.setText(koran.title);
                 tv_sound.setText(koran.sound);
+                getCurrentTime();
             } else if (Utils.formatTimeTo24hours(koran.time) != null) {
                 String[] time = Utils.formatTimeTo24hours(koran.time).substring(0, 5).split(":");
                 tv_hour.setText(time[0]);
@@ -152,6 +149,18 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
     @OnClick(R.id.btnSaveAlarm)
     public void onClickSaveAlarm() {
         String type;
+        String title = tv_title.getText().toString();
+        String sound = tv_sound.getText().toString();
+
+        if(title.isEmpty() || title.equals(Constants.NOT_YET)){
+            Toast.makeText(this, R.string.toast_msg_enter_title, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(sound.isEmpty() || sound.equals(Constants.NOT_YET)){
+            Toast.makeText(this, R.string.toast_msg_enter_sound, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (isCreateAlarm) {
             koran = new T_Koran();
             koran.description = "";
@@ -177,10 +186,10 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
         if (tag_name.equals(Constants.LIST_KORAN_ADAPTER))
             koran.description = tv_title.getText().toString();
         else
-            koran.title = tv_title.getText().toString();
+            koran.title = title;
 
         // Set sound
-        koran.sound = tv_sound.getText().toString();
+        koran.sound = sound;
 
         // Set enable
         koran.is_enable = 1;
@@ -377,5 +386,13 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
     private String getNameRingToneFromUri(Uri uri) {
         Ringtone ringTone = RingtoneManager.getRingtone(getApplicationContext(), uri);
         return ringTone.getTitle(this);
+    }
+
+    private void getCurrentTime(){
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        tv_hour.setText(String.valueOf(hour));
+        tv_minute.setText(String.valueOf(minute));
     }
 }
