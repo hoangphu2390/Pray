@@ -14,6 +14,7 @@
     <string name="text_state_not_bless">I\'m not bless</string>
     <string name="toast_msg_enter_title">Please enter name</string>
     <string name="toast_msg_enter_description">Please enter description</string>
+    <string name="toast_msg_saved_set_alarm">Saved set alarm</string>
 
     <string-array name="dawkins_sounds">
         <item>Pick a Random Dawkins quote</item>

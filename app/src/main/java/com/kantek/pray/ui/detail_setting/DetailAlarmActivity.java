@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,7 +30,6 @@ import com.kantek.pray.data.database.T_Koran;
 import com.kantek.pray.define.Constants;
 import com.kantek.pray.listener.SettingTitleListener;
 import com.kantek.pray.services.AlarmReceiver;
-import com.kantek.pray.ui.detail_koran.DetailKoranActivity;
 import com.kantek.pray.ui.detail_setting.dialog.SettingTitleDialog;
 import com.kantek.pray.utils.Navigator;
 import com.kantek.pray.utils.Utils;
@@ -51,10 +51,12 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
     private T_Koran koran;
     private TextView tv_hour, tv_minute, tv_title, tv_sound;
     private SwitchCompat switchRepeat;
-    final int RINGTONEPICKER = 1;
-    private int isRepeat = 0;
-    private boolean isCreateAlarm = false;
+    private final int RINGTONEPICKER = 1;
+    private int isRepeat;
+    private boolean isCreateAlarm;
     private String tag_name;
+    private Uri intent_uri;
+    private LinearLayout btnSaveAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,11 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_sound = (TextView) findViewById(R.id.tv_sound);
         switchRepeat = (SwitchCompat) findViewById(R.id.switchRepeat);
+        btnSaveAlarm = (LinearLayout) findViewById(R.id.btnSaveAlarm);
 
+        isCreateAlarm = false;
+        isRepeat = 0;
+        intent_uri = null;
         getData();
 
         switchRepeat.setOnClickListener(new View.OnClickListener() {
@@ -88,29 +94,34 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
             koran = (T_Koran) getIntent().getExtras().getSerializable(Constants.KORAN_ENTITY);
             if (koran == null) {
                 switchRepeat.setChecked(false);
-                tv_title.setText("Not yet");
-                tv_sound.setText("Not yet");
+                tv_title.setText(Constants.NOT_YET);
+                tv_sound.setText(Constants.NOT_YET);
                 isCreateAlarm = true;
                 return;
             }
             if (koran.time == null) return;
-            if (koran.time.equals(Constants.NOT_YET)) return;
-            if (Utils.formatTimeTo24hours(koran.time) != null) {
+            if (koran.time.equals(Constants.NOT_YET)) {
+                tv_title.setText(koran.title);
+                tv_sound.setText(koran.sound);
+            } else if (Utils.formatTimeTo24hours(koran.time) != null) {
                 String[] time = Utils.formatTimeTo24hours(koran.time).substring(0, 5).split(":");
                 tv_hour.setText(time[0]);
                 tv_minute.setText(time[1]);
             }
-        }
-        if (koran.is_repeat == 1) {
-            switchRepeat.setChecked(true);
-            isRepeat = 1;
-        } else {
-            switchRepeat.setChecked(false);
-            isRepeat = 0;
-        }
 
-        tv_title.setText(koran.title);
-        tv_sound.setText(koran.sound);
+            if (koran.is_repeat == 1) {
+                switchRepeat.setChecked(true);
+                isRepeat = 1;
+            } else {
+                switchRepeat.setChecked(false);
+                isRepeat = 0;
+            }
+            if (!koran.description.equals(""))
+                tv_title.setText(koran.description);
+            else
+                tv_title.setText(koran.title);
+            tv_sound.setText(koran.sound);
+        }
     }
 
     public void showDialog(Fragment newFragment) {
@@ -138,7 +149,11 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
         if (isCreateAlarm) {
             koran = new T_Koran();
             koran.description = "";
+            if (T_Koran.getContentFromTitle(tv_title.getText().toString()) != null)
+                koran.content = T_Koran.getContentFromTitle(tv_title.getText().toString()).content;
         }
+
+        // Set timer
         int hour = Integer.parseInt(tv_hour.getText().toString());
         if (hour <= 12) {
             type = " AM";
@@ -146,13 +161,31 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
             hour -= 12;
             type = " PM";
         }
-        koran.title = tv_title.getText().toString();
         if (hour < 10)
             koran.time = "0" + String.valueOf(hour) + ":" + tv_minute.getText().toString() + type;
         else
             koran.time = String.valueOf(hour) + ":" + tv_minute.getText().toString() + type;
         koran.is_repeat = isRepeat;
+
+        // Set title
+        if (tag_name.equals(Constants.LIST_KORAN_ADAPTER))
+            koran.description = tv_title.getText().toString();
+        else
+            koran.title = tv_title.getText().toString();
+
+        // Set sound
         koran.sound = tv_sound.getText().toString();
+
+        // Set enable
+        koran.is_enable = 1;
+
+        //Set uri
+        if (intent_uri != null)
+            koran.path_sound = intent_uri.toString();
+        else
+            intent_uri = Uri.parse(koran.path_sound);
+
+        // Update or Save data to local
         if (!isCreateAlarm)
             DataMapper.updateAll(koran);
         else {
@@ -160,10 +193,10 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
             Utils.setIntegerPreference(DetailAlarmActivity.this, Constants.INDEX_INCREMENT, Integer.parseInt(koran.koran_id));
             DataMapper.saveInfo_Koran(koran);
         }
-        //Navigator.openShowDetailAlarmActivity(DetailAlarmActivity.this, koran);
 
-        // save alarm
+        // Save Alarm
         saveAlarmManager();
+        btnSaveAlarm.setEnabled(false);
     }
 
     private void saveAlarmManager() {
@@ -180,10 +213,11 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
 
         Log.e("alarm time", "" + calendar.getTimeInMillis());
         Log.e("alarm time", "" + hour + ":" + minute);
-        Toast.makeText(getApplicationContext(), "Set alarm at " + hour + ":" + minute, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.toast_msg_saved_set_alarm, Toast.LENGTH_SHORT).show();
 
         myIntent.putExtra("extra", "yes");
         myIntent.putExtra(Constants.KORAN_ENTITY, koran);
+        myIntent.putExtra(Constants.URI, intent_uri);
 
         pendingIntent = PendingIntent.getBroadcast(DetailAlarmActivity.this, Integer.parseInt(koran.koran_id),
                 myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -206,11 +240,10 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
 
     @OnClick(R.id.tv_title)
     public void onClickName() {
-        if (tag_name.equals(Constants.LIST_ALARM) || tag_name.equals(Constants.LIST_KORAN))
+        if (tag_name.equals(Constants.LIST_ALARM))
             showDialog(new SettingTitleDialog());
-        else if(tag_name.equals(Constants.LIST_ALARM_SELECT_ITEM)){
+        else
             showDialogChangeName();
-        }
     }
 
     @OnClick(R.id.tv_sound)
@@ -258,12 +291,13 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RINGTONEPICKER && resultCode == RESULT_OK) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            intent_uri = uri;
             Ringtone ringTone = RingtoneManager.getRingtone(getApplicationContext(), uri);
             tv_sound.setText(ringTone.getTitle(this));
         }
     }
 
-    private void showDialogChangeName(){
+    private void showDialogChangeName() {
         final Dialog dialog = new Dialog(DetailAlarmActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_setting_name);
@@ -283,7 +317,7 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
             @Override
             public void onClick(View v) {
                 String description = edt_change_title.getText().toString();
-                if(description.isEmpty()) {
+                if (description.isEmpty()) {
                     Toast.makeText(dialog.getContext(), R.string.toast_msg_enter_description, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -326,11 +360,16 @@ public class DetailAlarmActivity extends FragmentActivity implements SettingTitl
     }
 
     private void setCaseOnBackPress() {
-        if (tag_name.equals(Constants.LIST_KORAN))
+        if (tag_name.equals(Constants.LIST_KORAN) || tag_name.equals(Constants.LIST_KORAN_ADAPTER))
             Navigator.openListPrayActivity(DetailAlarmActivity.this);
         else if (tag_name.equals(Constants.DETAIL_KORAN))
             finish();
-        else if (tag_name.equals(Constants.LIST_ALARM) || tag_name.equals(Constants.LIST_ALARM_SELECT_ITEM))
+        else if (tag_name.equals(Constants.LIST_ALARM) || tag_name.equals(Constants.LIST_ALARM_SELECTED))
             Navigator.openListAlarmActivity(DetailAlarmActivity.this);
+    }
+
+    private String getNameRingToneFromUri(Uri uri) {
+        Ringtone ringTone = RingtoneManager.getRingtone(getApplicationContext(), uri);
+        return ringTone.getTitle(this);
     }
 }

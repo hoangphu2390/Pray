@@ -32,12 +32,13 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String state = intent.getExtras().getString("extra");
-        int id = intent.getExtras().getInt(Constants.INDEX_INCREMENT);
+        Uri uri = intent.getExtras().getParcelable(Constants.URI);
         T_Koran koran = (T_Koran) intent.getExtras().getSerializable(Constants.KORAN_ENTITY);
         Log.e("MyActivity", "In the receiver with " + state);
 
         Intent serviceIntent = new Intent(context, RingtonePlayingService.class);
         serviceIntent.putExtra("extra", state);
+        serviceIntent.putExtra(Constants.URI, uri);
         serviceIntent.putExtra(Constants.KORAN_ENTITY, koran);
 
         context.startService(serviceIntent);

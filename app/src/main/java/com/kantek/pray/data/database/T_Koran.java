@@ -4,6 +4,9 @@ package com.kantek.pray.data.database;
  * Created by Kiet Nguyen on 05-Dec-16.
  */
 
+import android.net.Uri;
+import android.os.Parcelable;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -15,6 +18,7 @@ import org.parceler.Parcel;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @Table(name = "T_Koran")
 public class T_Koran extends Model implements Serializable, Comparable<T_Koran> {
@@ -52,6 +56,9 @@ public class T_Koran extends Model implements Serializable, Comparable<T_Koran> 
     @Column(name = "is_enable")
     public int is_enable;
 
+    @Column(name = "path_sound")
+    public String path_sound;
+
     // Make sure to have a default constructor for every ActiveAndroid model
     public T_Koran() {
         super();
@@ -77,15 +84,27 @@ public class T_Koran extends Model implements Serializable, Comparable<T_Koran> 
         new Update(T_Koran.class).set("title=?", titleNew).where("title=?", titleOld).execute();
     }
 
+    public static void updateTitleAndContent(String titleOld, String titleNew, String contentOld, String contentNew) {
+        String updateSet = " title = ? ," + " content = ?";
+        String whereSet =  " title = ? ," + " content = ?";
+        new Update(T_Koran.class).set(updateSet, titleNew, contentNew).where(whereSet, titleOld, contentOld).execute();
+    }
+
+    public static T_Koran getContentFromTitle(String title) {
+        return new Select().from(T_Koran.class).where("title=?", title).executeSingle();
+    }
+
+
     public static void updateDescription(String koran_id, String description) {
         new Update(T_Koran.class).set("description=?", description).where("koran_id =?", koran_id).execute();
     }
 
     public static void updateAll(T_Koran t_koran) {
-        String updateSet = " time = ? ," + " is_repeat = ? ," + " title = ? ," + " sound = ? ," + " is_enable = ? ";
+        String updateSet = " time = ? ," + " is_repeat = ? ," + " title = ? ," + " sound = ? ," + " is_enable = ? ,"
+                + " path_sound = ?";
 
         new Update(T_Koran.class).set(updateSet, t_koran.time, t_koran.is_repeat, t_koran.title,
-                t_koran.sound, t_koran.is_enable).where("koran_id=?", t_koran.koran_id).execute();
+                t_koran.sound, t_koran.is_enable, t_koran.path_sound).where("koran_id=?", t_koran.koran_id).execute();
     }
 
     public static List<T_Koran> getAll() {

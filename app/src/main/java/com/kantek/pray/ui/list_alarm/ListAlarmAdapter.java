@@ -1,8 +1,12 @@
 package com.kantek.pray.ui.list_alarm;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +20,11 @@ import com.kantek.pray.base.BaseHolder;
 import com.kantek.pray.data.database.DataMapper;
 import com.kantek.pray.data.database.T_Koran;
 import com.kantek.pray.define.Constants;
+import com.kantek.pray.services.AlarmReceiver;
+import com.kantek.pray.ui.detail_setting.DetailAlarmActivity;
 import com.kantek.pray.utils.Utils;
+
+import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -31,6 +39,7 @@ public class ListAlarmAdapter extends BaseAdapter<T_Koran, BaseHolder> {
 
     public interface SelectedItem {
         void selectedInfidelity(T_Koran koran);
+        void disableAlarmSetting(T_Koran koran);
     }
 
     private SelectedItem listener;
@@ -76,8 +85,10 @@ public class ListAlarmAdapter extends BaseAdapter<T_Koran, BaseHolder> {
             switchCompat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (koran.is_enable == 1)
+                    if (koran.is_enable == 1) {
                         koran.is_enable = 0;
+                        listener.disableAlarmSetting(koran);
+                    }
                     else
                         koran.is_enable = 1;
                     setStateItem(koran.is_enable);

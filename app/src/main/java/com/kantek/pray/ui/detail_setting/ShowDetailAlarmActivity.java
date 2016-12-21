@@ -3,6 +3,7 @@ package com.kantek.pray.ui.detail_setting;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -67,6 +68,7 @@ public class ShowDetailAlarmActivity extends BaseActivity {
 
     @OnClick(R.id.tv_view)
     public void onClickViewDetail() {
+        setUpMute();
         Navigator.openDetailKoranActivity(this, koran);
     }
 
@@ -96,13 +98,20 @@ public class ShowDetailAlarmActivity extends BaseActivity {
 
     @OnClick(R.id.tv_mute)
     public void onClickMute() {
+        setUpMute();
+    }
 
+    private void setUpMute(){
         WakeLocker.release();
 
         Intent myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Uri uri = null;
         myIntent.putExtra("extra", "no");
-        PendingIntent pending_intent = PendingIntent.getBroadcast(ShowDetailAlarmActivity.this, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        myIntent.putExtra(Constants.KORAN_ENTITY, koran);
+        myIntent.putExtra(Constants.URI, uri);
+        PendingIntent pending_intent = PendingIntent.getBroadcast(ShowDetailAlarmActivity.this, Integer.parseInt(koran.koran_id),
+                myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         sendBroadcast(myIntent);
         alarmManager.cancel(pending_intent);
     }

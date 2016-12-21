@@ -83,7 +83,7 @@ public class ListKoranAdapter extends BaseAdapter<T_Koran, BaseHolder> {
 
         @OnClick(R.id.view_alarm)
         public void onClickAlarm(){
-            Navigator.openDetailAlarmActivity((Activity)context, koran, Constants.LIST_KORAN);
+            Navigator.openDetailAlarmActivity((Activity)context, koran, Constants.LIST_KORAN_ADAPTER);
         }
     }
 }

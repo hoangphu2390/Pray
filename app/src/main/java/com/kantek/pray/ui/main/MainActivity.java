@@ -53,6 +53,7 @@ public class MainActivity extends BaseActivity{
         koran.sound = "Not yet";
         koran.is_enable = 0;
         koran.description = "";
+        koran.path_sound = "";
         DataMapper.saveInfo_Koran(koran);
 
         koran = new T_Koran();
@@ -67,6 +68,7 @@ public class MainActivity extends BaseActivity{
         koran.sound = "Not yet";
         koran.is_enable = 0;
         koran.description = "";
+        koran.path_sound = "";
         DataMapper.saveInfo_Koran(koran);
 
         koran = new T_Koran();
@@ -81,6 +83,7 @@ public class MainActivity extends BaseActivity{
         koran.sound = "Not yet";
         koran.is_enable = 0;
         koran.description = "";
+        koran.path_sound = "";
         DataMapper.saveInfo_Koran(koran);
     }
 

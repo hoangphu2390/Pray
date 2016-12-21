@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
     <application
@@ -17,10 +18,10 @@
 
         <meta-data
             android:name="DB_NAME"
-            android:value="v1.db" />
+            android:value="v2.db" />
         <meta-data
             android:name="DB_VERSION"
-            android:value="1" />
+            android:value="2" />
 
         <activity
             android:name=".ui.main.SplashActivity"

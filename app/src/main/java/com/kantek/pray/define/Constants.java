@@ -27,6 +27,7 @@ public class Constants {
 
     // Key Bundle
     public static final String KORAN_ENTITY = "koran";
+    public static final String URI = "uri";
 
     // Share Preference
     public static final String PRE_ENVIRONMENT = "ENVIRONMENT";
@@ -38,9 +39,13 @@ public class Constants {
     public static final String TAG_NAME_CLASS = "TAG_NAME_CLASS";
     public static final String DETAIL_KORAN = "DETAIL_KORAN_ACTIVITY";
     public static final String LIST_KORAN = "LIST_KORAN_ACTIVITY";
+    public static final String LIST_KORAN_ADAPTER = "LIST_KORAN_ADAPTER";
+
     public static final String LIST_ALARM = "LIST_ALARM_ACTIVITY";
-    public static final String LIST_ALARM_SELECT_ITEM = "LIST_ALARM_SELECT_ITEM_ACTIVITY";
+    public static final String LIST_ALARM_SELECTED = "LIST_ALARM_SELECTED";
 
     // time interval from minute to milisecond
-    public static final int TIME_INTERVAL =  60000;
+   // public static final int TIME_INTERVAL = 86400000 ;
+    public static final int TIME_INTERVAL = 120000 ;
+
 }

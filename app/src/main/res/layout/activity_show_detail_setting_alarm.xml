@@ -44,6 +44,7 @@
                 android:layout_marginTop="@dimen/margin_distance_10dp"
                 android:text="Friday, December 9"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 android:textSize="@dimen/text_size_20" />
 
             <TextView
@@ -76,17 +77,14 @@
 
                 <TextView
                     android:id="@+id/tv_mute"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_distance_50dp"
-                    android:layout_marginRight="@dimen/margin_distance_10dp"
                     android:layout_marginTop="@dimen/margin_distance_40dp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_red_btn_snooze"
                     android:gravity="center"
                     android:paddingBottom="@dimen/margin_distance_10dp"
-                    android:paddingLeft="@dimen/margin_distance_15dp"
-                    android:paddingRight="@dimen/margin_distance_15dp"
+                    android:paddingLeft="@dimen/margin_distance_30dp"
+                    android:paddingRight="@dimen/margin_distance_30dp"
                     android:paddingTop="@dimen/margin_distance_10dp"
                     android:text="Mute"
                     android:textColor="@color/white"
@@ -107,6 +105,7 @@
                     android:paddingRight="@dimen/margin_distance_15dp"
                     android:paddingTop="@dimen/margin_distance_10dp"
                     android:text="Snooze"
+                    android:visibility="gone"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_24" />
 
